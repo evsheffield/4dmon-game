@@ -1,9 +1,6 @@
 {
   "name": "4dmon-game",
   "version": "0.0.0",
-  "authors": [
-    "Evan Sheffield <evan.c.sheffield@gmail.com>"
-  ],
   "dependencies": {
     "phaser": "~2.0.0"
   }
