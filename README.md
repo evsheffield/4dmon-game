@@ -14,3 +14,19 @@ The `.buttlerc` file is already set up to open the correct page and use live rel
 ###How to Play
 
 `WASD` for movement
+
+###Roadmap
+
+**For v1.0**
+
+- 4dmon's attacks
+- Basic enemies
+- Game screens
+- Assets
+
+**Going further...?**
+
+- Multiple attack types for 4dmon
+- Snazziness and particle effects
+- Multiple enemy types/AI
+- ...
