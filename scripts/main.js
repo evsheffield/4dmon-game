@@ -45,6 +45,9 @@ function update() {
     if(currentSpeed > 0) {
       currentSpeed -= 3;
     }
+    if(currentSpeed < 0) {
+      currentSpeed = 0;
+    }
   }
 
   // Apply velocity based on the current angle when moving forward
