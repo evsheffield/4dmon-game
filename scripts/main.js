@@ -1,11 +1,16 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render })
   , player
+  , bullets
+  , emailBullets
   , currentSpeed = 0
-  , maximumSpeed = 200;
+  , maximumSpeed = 200
+  , nextFire = 0
+  , fireRate = 500; // Two bullets per second
 
 
 function preload() {
   game.load.image('arrow', 'assets/arrow.png');
+  game.load.image('emailBullet', 'assets/ball.png');
 }
 
 function create() {
@@ -18,6 +23,17 @@ function create() {
 
   // Enable physics on the player
   game.physics.enable(player, Phaser.Physics.ARCADE);
+
+  // Bullet group
+  bullets = game.add.group();
+  emailBullets = game.add.group(bullets);
+  bullets.enableBody = true;
+  bullets.physicsBodyType = Phaser.Physics.ARCADE;
+  bullets.createMultiple(30, 'emailBullet', 0, false);
+  bullets.setAll('anchor.x', 0.5);
+  bullets.setAll('anchor.y', 0.5);
+  bullets.setAll('checkWorldBounds', true);
+  bullets.setAll('outOfBoundsKill', true);
 }
 
 function update() {
@@ -67,9 +83,29 @@ function update() {
   else if(player.body.y > 600) {
     player.body.y = 0;
   }
+
+  // Fire when the player presses the spacebar
+  if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+    fire();
+  }
 }
 
 function render() {
   // Debugging info about the player sprite
   game.debug.spriteInfo(player, 30, 30);
+}
+
+// Fire a bullet
+function fire () {
+  if (game.time.now > nextFire){
+    // Create a bunch more when we run out
+    if(bullets.countDead() === 0) {
+      bullets.createMultiple(30, 'emailBullet', 0, false);
+    }
+    // Pluck a bullet from the group, spawn it at the player location, and shoot it
+    nextFire = game.time.now + fireRate;
+    var bullet = bullets.getFirstExists(false);
+    bullet.reset(player.x, player.y);
+    game.physics.arcade.velocityFromAngle(player.angle, 500, bullet.body.velocity);
+  }
 }
